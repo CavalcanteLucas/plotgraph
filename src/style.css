@@ -119,11 +119,12 @@ body {
 
 #output-container {
   background-color: plum;
-  flex-grow: 1;
+  /* flex-grow: 1; */
   border: 1px solid black;
   padding: 10px;
   box-sizing: border-box;
   height: 95vh;
+  width: 1000px;
 }
 
 #input-number-list,
@@ -140,9 +141,10 @@ body {
   background-color: wheat;
 }
 
+/* 
 #draw-group-inner {
   transform: translate(50%, 0%);
-}
+} */
 
 #add-container,
 #build-container {
