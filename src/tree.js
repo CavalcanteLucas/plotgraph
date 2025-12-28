@@ -4,29 +4,32 @@ export class TreeNode {
         this.value = value;
         this.left = left;
         this.right = right;
-        this.maxLevel = (this.value === null) ? 0 : 1;
+        // this.maxLevel = (this.value === null) ? 0 : 1;
     }
 
     insert(newValue) {
         if (newValue === null || newValue === undefined || newValue === "") {
             return;
         }
+        newValue = Number(newValue);
         if (this.value === null) {
-            this.value = Number(newValue);
-            this.maxLevel = this.maxLevel + 1;
+            this.value = newValue;
+            // this.maxLevel = this.maxLevel + 1;
             return;
         }
+        console.log("newValue:", newValue, "this.value:", this.value);
         if (newValue < this.value) {
+            if (newValue == 113) { debugger; }
             if (this.left === null) {
                 this.left = new TreeNode(newValue);
-                this.maxLevel = this.maxLevel + 1;
+                // this.maxLevel = this.maxLevel + 1;
             } else {
                 this.left.insert(newValue);
             }
         } else {
             if (this.right === null) {
                 this.right = new TreeNode(newValue);
-                this.maxLevel = this.maxLevel + 1;
+                // this.maxLevel = this.maxLevel + 1;
             } else {
                 this.right.insert(newValue);
             }
@@ -44,11 +47,11 @@ export class TreeNode {
 
     printByLevel2() {
         let state = {};
-        console.log(this.maxLevel)
+        // console.log(this.maxLevel)
 
-        for (let i = 0; i <= this.maxLevel; i++) {
-            state[i] = new Array(2 ** i).fill(null);
-        }
+        // for (let i = 0; i <= this.maxLevel; i++) {
+        //     state[i] = new Array(2 ** i).fill(null);
+        // }
 
         state = this.printByLevel3(state, 0, 0);
 
@@ -56,7 +59,12 @@ export class TreeNode {
     }
 
     printByLevel3(state = {}, level = 0, index = 0) {
-        console.log("value:", this.value, "index:", index, "level:", level);
+        console.log("value:", this.value, "level:", level, "index:", index);
+
+        if (!state[level]) {
+            state[level] = new Array(2 ** level).fill(null);
+        }
+
         state[level][index] = this.value === null ? null : Number(this.value);
 
         if (this.left !== null) {
