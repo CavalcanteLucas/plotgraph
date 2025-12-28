@@ -1,7 +1,26 @@
 import * as d3 from "d3";
 
 export class Draw {
-    constructor(svg) {
+    constructor() {
+        const svg = d3.select("#output-container")
+            .append("svg")
+            .attr("id", "draw-group");
+
+        svg.append("g").attr("id", "draw-group-inner");
+
+        svg.append("defs")
+            .append("marker")
+            .attr("id", "arrow")
+            .attr("viewBox", "0 0 10 10")
+            .attr("refX", 10)
+            .attr("refY", 5)
+            .attr("markerWidth", 6)
+            .attr("markerHeight", 6)
+            .attr("orient", "auto")
+            .append("path")
+            .attr("d", "M 0 0 L 10 5 L 0 10 z")
+            .attr("fill", "black");
+
         this.svg = svg;
     }
 
@@ -10,23 +29,10 @@ export class Draw {
     }
 
     drawByLevel(treeByLevel) {
-
-        // const levels = Object.keys(treeByLevel).length;
-        // console.log(levels);
-
+        this.clear();
+        console.log(treeByLevel);
         const width = 1000;
-
-        // for (let i = 0; i < levels; i++) {
-        //     const possibleNodes = 2 ** i;
-        //     const levelWidth = width / possibleNodes;
-        //     console.log(i + 1, possibleNodes, levelWidth);
-        //     for (let j = 0; j < possibleNodes; j++) {
-        //         console.log(levelWidth / 2 + j * levelWidth);
-        //     }
-        // }
-
         const rootGroup = this.svg.select("#draw-group-inner");
-
         const levelGroups = rootGroup.selectAll(".level-group")
             .data(Object.entries(treeByLevel))
             .enter()
@@ -49,7 +55,7 @@ export class Draw {
             })
             .attr("cy", 50)
             .attr("r", 20)
-            .attr("fill", d => d === null ? "teal" : "orange");
+            .attr("fill", d => d === null ? "transparent" : "orange");
 
         levelGroups.selectAll("text")
             .data(d => d[1])
@@ -67,5 +73,34 @@ export class Draw {
             .attr("text-anchor", "middle")
             .attr("dominant-baseline", "middle")
             .text(d => d);
+
+        levelGroups.each(function ([levelKey, nodes], level) {
+            if (level === 0) return;
+
+            const possibleNodes = 2 ** level;
+            const parentNodes = 2 ** (level - 1);
+            const levelWidth = width / possibleNodes;
+            const parentWidth = width / parentNodes;
+
+            const group = d3.select(this);
+
+            nodes.forEach((_, nodeIndex) => {
+                if (nodes[nodeIndex] === null) return;
+                const parentIndex = Math.floor(nodeIndex / 2);
+
+                const x1 = parentWidth / 2 + parentIndex * parentWidth;
+                const y1 = -30;
+                const x2 = levelWidth / 2 + nodeIndex * levelWidth;
+                const y2 = 30;
+
+                group.append("line")
+                    .attr("x1", x1)
+                    .attr("y1", y1)
+                    .attr("x2", x2)
+                    .attr("y2", y2)
+                    .attr("stroke", "black")
+                    .attr("marker-end", "url(#arrow)");
+            });
+        });
     }
 }

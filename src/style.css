@@ -141,11 +141,6 @@ body {
   background-color: wheat;
 }
 
-/* 
-#draw-group-inner {
-  transform: translate(50%, 0%);
-} */
-
 #add-container,
 #build-container {
   display: flex;
