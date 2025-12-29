@@ -53,8 +53,36 @@ export class TreeNode {
         return state;
     }
 
-    delete(value) {
-        console.log("delete")
+
+    min() {
+        if (this.left === null) {
+            return this.value;
+        }
+        return this.left.min();
+    }
+
+
+    delete(oldValue) {
+        if (this.value === oldValue) {
+            console.log("found:", this.value);
+            if ((this.left == null) && (this.right == null)) {
+                console.log("no children")
+                debugger;
+                this.value = null;
+            }
+            else {
+                this.value = this.right.min();
+                this.right.delete(this.value);
+            }
+        }
+        else {
+            if (oldValue < this.value) {
+                this.left.delete(oldValue);
+            }
+            else {
+                this.right.delete(oldValue);
+            }
+        }
     }
 }
 

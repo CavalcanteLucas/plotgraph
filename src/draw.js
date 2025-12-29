@@ -74,6 +74,7 @@ export class Draw {
             .attr("cy", 50)
             .attr("r", 20)
             .attr("fill", d => d === null ? "transparent" : "orange")
+            .attr("stroke", d => d === null ? "transparent" : "black")
             .on("click", function (event, d) {
                 if (d === null) return;
                 const nodeClass = d3.select(this).attr("class");
@@ -81,6 +82,8 @@ export class Draw {
                 const level = nodeClass.split("-")[1];
                 console.log("Clicked node:", nodeClass, "at level:", level, "with index:", index, "and value:", d);
                 console.log(self.tree);
+                self.tree.delete(d);
+                self.drawByLevel();
             })
             .on("mouseover", function (event, d) {
                 if (d === null) return;
