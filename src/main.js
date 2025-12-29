@@ -1,6 +1,5 @@
 import './style.css'
 
-import { TreeNode } from './tree.js';
 import { Draw } from './draw.js';
 
 import appHtml from './app.html?raw';
@@ -33,29 +32,24 @@ const draw = new Draw();
 const clearButton = document.getElementById("clear-button");
 clearButton.addEventListener("click", clearButtonHandler);
 
-var theTree = new TreeNode();
-
 function clearButtonHandler() {
   draw.clear();
-  theTree = new TreeNode();
 }
 
 addButton.addEventListener("click", () => {
   const inputValue = document.getElementById("input-number-item").value;
   if (inputValue === "") return;
-  theTree.insert(inputValue);
-  const levels = theTree.printByLevel();
-  console.log(levels);
-  draw.drawByLevel(levels);
+  draw.insert(inputValue);
+  draw.drawByLevel();
 });
 
 buildButton.addEventListener("click", () => {
+  draw.clear();
   const inputValue = inputNumber.value
     .split(/[, \s]+/)
     .filter(n => n !== "");
   inputValue.forEach((num, index) => {
-    theTree.insert(num);
+    draw.insert(num);
   });
-  const levels = theTree.printByLevel();
-  draw.drawByLevel(levels);
+  draw.drawByLevel();
 });

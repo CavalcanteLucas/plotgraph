@@ -15,9 +15,7 @@ export class TreeNode {
             this.value = newValue;
             return;
         }
-        console.log("newValue:", newValue, "this.value:", this.value);
         if (newValue < this.value) {
-            if (newValue == 113) { debugger; }
             if (this.left === null) {
                 this.left = new TreeNode(newValue);
             } else {
@@ -41,16 +39,11 @@ export class TreeNode {
         }
     }
 
-
     printByLevel(state = {}, level = 0, index = 0) {
-        console.log("value:", this.value, "level:", level, "index:", index);
-
         if (!state[level]) {
             state[level] = new Array(2 ** level).fill(null);
         }
-
         state[level][index] = this.value === null ? null : Number(this.value);
-
         if (this.left !== null) {
             this.left.printByLevel(state, level + 1, index * 2);
         }
@@ -58,6 +51,10 @@ export class TreeNode {
             this.right.printByLevel(state, level + 1, (index + 1) * 2 - 1);
         }
         return state;
+    }
+
+    delete(value) {
+        console.log("delete")
     }
 }
 
