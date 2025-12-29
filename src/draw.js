@@ -74,24 +74,27 @@ export class Draw {
             .attr("cy", 50)
             .attr("r", 20)
             .attr("fill", d => d === null ? "transparent" : "orange")
+            // .attr("fill", d => d === null ? "teal" : "orange")
             .attr("stroke", d => d === null ? "transparent" : "black")
             .on("click", function (event, d) {
                 if (d === null) return;
                 const nodeClass = d3.select(this).attr("class");
-                const index = nodeClass.split("-")[2];
-                const level = nodeClass.split("-")[1];
-                console.log("Clicked node:", nodeClass, "at level:", level, "with index:", index, "and value:", d);
-                console.log(self.tree);
                 self.tree.delete(d);
                 self.drawByLevel();
             })
             .on("mouseover", function (event, d) {
                 if (d === null) return;
-                d3.select(this).attr("fill", "coral");
+                d3.select(this)
+                    .transition()
+                    .duration(10)
+                    .attr("fill", "coral");
             })
             .on("mouseout", function (event, d) {
                 if (d === null) return;
-                d3.select(this).attr("fill", "orange");
+                d3.select(this)
+                    .transition()
+                    .duration(400)
+                    .attr("fill", "orange");
             });
 
         levelGroups.selectAll("text")
@@ -128,7 +131,7 @@ export class Draw {
                     .attr("x2", x2)
                     .attr("y2", y2)
                     .attr("stroke", "black")
-                    .attr("marker-end", "url(#arrow)");
+                // .attr("marker-end", "url(#arrow)");
             });
         });
     }

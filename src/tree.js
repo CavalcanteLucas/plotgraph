@@ -55,24 +55,39 @@ export class TreeNode {
 
 
     min() {
-        if (this.left === null) {
-            return this.value;
+        if (this.left === null || this.left.value === null) {
+            return this;
         }
         return this.left.min();
     }
 
+    max() {
+        if (this.right === null || this.right.value === null) {
+            return this;
+        }
+        return this.right.max();
+    }
 
     delete(oldValue) {
         if (this.value === oldValue) {
-            console.log("found:", this.value);
-            if ((this.left == null) && (this.right == null)) {
-                console.log("no children")
-                debugger;
+            if ((this.left == null || this.left.value == null) && (this.right == null || this.right.value == null)) {
                 this.value = null;
             }
             else {
-                this.value = this.right.min();
-                this.right.delete(this.value);
+                if (this.right !== null && this.right.value !== null) {
+                    const min = this.right.min();
+                    if (min !== null) {
+                        this.value = min.value;
+                        this.right.delete(min.value);
+                    }
+                }
+                else {
+                    const max = this.left.max();
+                    if (max !== null) {
+                        this.value = max.value;
+                        this.left.delete(max.value);
+                    }
+                }
             }
         }
         else {
