@@ -138,6 +138,15 @@ button:focus-visible {
   gap: 5px;
 }
 
+#type-container {
+  margin-top: 10px;
+  background-color: lightgray;
+  padding: 10px;
+  border: 1px solid black;
+  color: black;
+  font-size: 1 rem;
+}
+
 .node-text {
   pointer-events: none;
 }
